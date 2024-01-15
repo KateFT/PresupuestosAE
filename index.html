@@ -2,11 +2,27 @@
 <html>
 <head>
  <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <link rel="stylesheet" href="css/estilos.css"></link>
 </head>
 <body>
-<h1>El Arqui Emma</h1>
-<p><strong>Elaboracion Rápida de Presupuestos.</strong></p>
+<h1>Presupuestos </h1>
+<p><strong>Trabajo a Realizar:</strong></p>
 
+
+
+<div id="contenido">
+<fieldset name="registro" id="registro">
+   <label for="concepto" ><span>1.</span></label>
+   <input hidden value="1" name="numero" id="numero">
+   <input type="text" placeholder="Concepto" name="concepto[]" id="concepto">
+   <input type="number" placeholder="Cantidad" name="cantidad" id="cantidad" value="1" onchange="calcular(this.parentElement)">
+   <input type="number" placeholder="Precio Unitario" name="preciounit" id="preciounit" onchange="calcular(this.parentElement)">
+   <input type="number" readonly name="totalc" id="total" placeholder="Subtotal" >
+</fieldset>
+
+</div>
+
+<button onclick="agregar_registro()">+</button>
  <button onclick="creaPDF()">PDF</button>
 </body>
  <script src="dist/jspdf.min.js"></script>
@@ -22,7 +38,26 @@
     
     doc.save('Test.pdf');
  }
-  
+
+ function agregar_registro(){
+   var contenido= document.getElementById("contenido");
+
+   
+   contenido.innerHTML+='<fieldset name="registro">   <label for="concepto" ><span>1.</span></label> \
+<input type="text" placeholder="Concepto" name="concepto[]" id="concepto"> \
+   <input type="number" placeholder="Cantidad" name="Cantidad" id="cantidad"> \
+   <input type="number" placeholder="Precio Unitario" name="preciou" id="preciounit"> \
+   <input type="number" readonly name="totalc" id="total" placeholder="Subtotal"> \
+</fieldset>';
+ }
+
+
+ function calcular(parent){
+   var elem= parent.getElementById("numero");
+   console.log(elem.value);
+ }
+
+
  </script>
 
 </html>
