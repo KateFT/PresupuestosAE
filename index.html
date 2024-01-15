@@ -5,13 +5,18 @@
  <link rel="stylesheet" href="css/estilos.css"></link>
 </head>
 <body>
-<h1>Presupuestos </h1>
-<p><strong>Trabajo a Realizar:</strong></p>
+<h1>El Arqui Emma </h1>
+<p><strong>Datos del Presupuesto</strong></p>
+<input type="text" name="nombre_proyecto" id="proyecto" placeholder="Nombre del Proyecto">
+<br>
+<input type="text" name="cliente" id="cliente" placeholder="Nombre del Cliente">
+<hr>
+
 
 
 
 <div id="contenido">
-<fieldset name="registro" id="registro">
+<fieldset name="registro" id="registro[]" name="registro[]">
    <label for="concepto" ><span>1.</span></label>
    <input hidden value="1" name="numero" id="numero">
    <input type="text" placeholder="Concepto" name="concepto[]" id="concepto">
@@ -31,12 +36,15 @@
  function creaPDF(){
     var doc = new jsPDF();
     doc.setFontSize(22);
-    doc.text(20, 20, 'This is a title');
+    var proyecto= document.getElementById("proyecto");
+    var cliente= document.getElementById("cliente");
+    doc.text(20, 20, proyecto);
     
     doc.setFontSize(16);
-    doc.text(20, 30, 'This is some normal sized text underneath.');
+    doc.text(20, 30, cliente);
     
-    doc.save('Test.pdf');
+    console.log(proyecto+" cliente:"+cliente);
+   // doc.save('Test.pdf');
  }
 
  function agregar_registro(){
