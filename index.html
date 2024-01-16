@@ -38,7 +38,6 @@
 
             <fieldset id="contenido" class="form-inline">
             <div name="registro" id="registro[]" name="registro[]" class="form-inline">
-               <label for="concepto" ><span>1.</span></label>
                <input hidden value="1" name="numero" id="numero">
                <input type="text" placeholder="Concepto" name="concepto[]" id="concepto" class="form-control">
                <input type="number" placeholder="Cantidad" name="cantidad[]" id="cantidad" value="1" onchange="calcular(this.parentElement)" class="form-control">
@@ -124,10 +123,10 @@ function llenar_datos(){
 
  function agregar_registro(){
 
-
+contador=contador+1;
   
    contenido.innerHTML+='<div name="registro" id="registro[]" name="registro[]">\
-   <label for="concepto" ><span>1.</span></label>\
+   <label for="concepto" ><span>'+contador+'</span></label>\
    <input type="text" placeholder="Concepto" name="concepto[]" id="concepto">\
    <input type="number" placeholder="Cantidad" name="cantidad[]" id="cantidad" value="1" onchange="calcular(this.parentElement)">\
    <input type="number" placeholder="Precio Unitario" name="preciounit[]" id="preciounit" onchange="calcular(this.parentElement)">\
@@ -136,13 +135,14 @@ function llenar_datos(){
  }
 
  function agregar_fila(parent){
+   contador=contador+1;
 console.log(parent.childNodes)
 filas.innerHTML+='<tr>\
    <td>'+contador+'</td>\
+   <td>'+parent.childNodes[3].value+'</td>\
    <td>'+parent.childNodes[5].value+'</td>\
    <td>'+parent.childNodes[7].value+'</td>\
-   <td>'+parent.childNodes[9].value+'</td>\
-   <td>'+parent.childNodes[7].value *  parent.childNodes[9].value+'</td>\
+   <td>'+parent.childNodes[5].value *  parent.childNodes[7].value+'</td>\
    ';
 }
 
@@ -150,8 +150,8 @@ filas.innerHTML+='<tr>\
  function calcular(parent){
  // var elem= parent.getElementById("numero");getElementsByTagName
  console.log(parent.childNodes);
-   var subtotal= parent.childNodes[7].value *  parent.childNodes[9].value;
-   parent.childNodes[11].value = subtotal;
+   var subtotal= parent.childNodes[5].value *  parent.childNodes[7].value;
+   parent.childNodes[9].value = subtotal;
    console.log(subtotal);
  }
 
