@@ -64,22 +64,27 @@
 
 
 	<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-	<script src='/dist/jspdf.debug.js'></script>
+	<script src='dist/jspdf.debug.js'></script>
+	<script src='dist/jspdf.min.js'></script>
 
 	<script>
 		var pdf = new jsPDF('p', 'pt', 'letter');
 		var width = 600;
 		document.body.style.width = width + "px";
 
-		pdf.html(document.body, {
+		pdf.fromHTML(document.body, {
 			callback: function (pdf) {
 				var iframe = document.createElement('iframe');
 				iframe.setAttribute('style', 'position:absolute;top:0;right:0;height:100%; width:600px');
 				document.body.appendChild(iframe);
 				iframe.src = pdf.output('datauristring');
+				
 			}
 		});
-	</script>
+
+		pdf.save('exampl.pdf');
+
+</script>
 </body>
 
 </html>
