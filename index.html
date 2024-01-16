@@ -283,7 +283,7 @@ filas.innerHTML+='<tr>\
       pdf.addImage(contentDataURL, 'PNG', 2, position, imgWidth, imgHeight, options);
       heightLeft -= pageHeight;
     }
-    pdf.save('informe.pdf'); // Generated PDF
+    pdf.save(cliente.value+'.pdf'); // Generated PDF
     });
    }
 
