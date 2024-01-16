@@ -97,11 +97,12 @@ h1 {
 
 
 
- <script src="dist/jspdf.min.js"></script>
+ <!--<script src="dist/jspdf.min.js"></script>
  <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
  <script src='dist/jspdf.debug.js'></script>
- <script type="text/javascript" src="dist/html2canvas.js"></script>
- <script src="dist/jspdf.plugin.autotable.min.js"></script>
+ <script type="text/javascript" src="dist/html2canvas.js"></script>-->
+ <script src="dist/jspdf.umd.js"></script>
+ <script src="dist/jspdf.plugin.autotable.js"></script>
  <script>
    
 var proyecto= document.getElementById("proyecto");
@@ -293,9 +294,24 @@ filas.innerHTML+='<tr>\
 
 
   function tabla(){
-  var doc = new jsPDF()
-  doc.autoTable({ html: '#tabla_datos' })
-  doc.save('table.pdf')
+   var doc = new jspdf.jsPDF()
+   doc.text(20,30, "Proyecto: "+proyecto.value);
+    
+    doc.setFontSize(10);
+    doc.text(20,40, "Nombre del Cliente: "+cliente.value);
+// Simple data example
+var head = [['Proyecto', proyecto.value , 'Rank', 'Capital']]
+var body = [
+  ['Cliente', cliente.value, 7.526, 'Copenhagen'],
+  [2, 'Switzerland', 7.509, 'Bern'],
+  [3, 'Iceland', 7.501, 'Reykjavík'],
+]
+doc.autoTable({ head: head, body: body })
+
+// Simple html example
+doc.autoTable({ html: '#tabla_datos' })
+
+doc.save('table.pdf')
   }
 
   </script>
