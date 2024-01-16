@@ -6,7 +6,8 @@
 <style>
    /*@import url('https://fonts.googleapis.com/css?family=Oswald&effect=shadow-multiple');*/
 body {
-    background-color: rgb(255, 255, 255);
+    background-image: 'imagen.jpg';
+    background-repeat: repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 h1 {
@@ -20,22 +21,22 @@ h1 {
 </head>
 <body>
    <br>
-   <div class="container" id="paraPDF">
+   <div class="container" >
       <div class="row">
-            <h1>El Arqui Emma</h1>
-            <p><strong>Datos del Presupuesto</strong></p>
+            <h1 style="color: rgb(21, 160, 202);">Hoja de Presupuesto</h1>
+           <!--<div class="form-inline"></div><strong>Fecha:<h6 id="fecha"></h6></strong></div>
+            --> 
             <div class="row">
-               <div class="col-md-12">Proyecto:
-            <input type="text" name="nombre_proyecto" id="proyecto" placeholder="Nombre del Proyecto: " class="form-control" value="Nombre del Proyecto">
+            <input type="text" name="nombre_proyecto" id="proyecto" placeholder="Nombre del Proyecto: " class="form-control" value="">
             <br>
-            Cliente:
-            <input type="text" name="cliente" id="cliente" placeholder="Nombre del Cliente" class="form-control" value="Nombre del Cliente ">
+            <input type="text" name="cliente" id="cliente" placeholder="Nombre del Cliente" class="form-control" value="">
             <br>
             </div>
             </div>
             <hr>
 
-            <table class="table table-bordered" id="tabla_datos">
+            <div id="paraPDF" style="display:none;">
+            <table class="table table-bordered table-striped" id="tabla_datos" style="font-size: 12px; " >
                <thead>
                   <th>Num</th>
                   <th>Concepto</th>
@@ -50,15 +51,16 @@ h1 {
 
             <table class="table">
                <th colspan="4"><strong>Total = </strong></th>
-               <th colspan="1" style="text-align: right;"><input class="form-control" type="number" id="gran_total" value="0" style="text-align: right;"></th>
+               <th colspan="1" style="text-align: right;"><input class="form-control" type="number" id="gran_total" value="0" style="text-align: right;" readonly></th>
             </table>
+         </div>
             <hr>
-
+  <!--
             <br>
             <br>
             <br>
 
-            <div style="text-align: right; font-size: 14px;">
+          <div style="text-align: right; font-size: 14px;">
                <strong>Atentamente </strong><span> -- Arq. Jesus Emmanuel de la Cruz Palacios</span>
             </div>
             <br>
@@ -66,44 +68,41 @@ h1 {
             <div style="text-align: right; font-size: 12px;">
                <strong>Nota:</strong><span>Este presupuesto es valido unicamente 20 días naturales posteriores a la fecha de entrega</span>
             </div>
-            
+         -->
       </div>
-   </div>
 
 
       <div class="container">
          <div class="row">
          <p><strong>Agregar Concepto</strong></p>
-            <fieldset id="contenido" class="form-inline">
+            <fieldset id="contenido" class="form-group">
             <div name="registro" id="registro[]" name="registro[]" class="form-inline">
                <input hidden value="1" name="numero" id="numero">
-               <input type="text" placeholder="Concepto" name="concepto[]" id="concepto" class="form-control">
-               <input type="number" placeholder="Cantidad" name="cantidad[]" id="cantidad" value="1" onchange="calcular(this.parentElement)" class="form-control" >
-               <input type="number" placeholder="Precio Unitario" name="preciounit[]" id="preciounit" onchange="calcular(this.parentElement)" class="form-control">
-               <input type="number" readonly name="subtotal[]" id="total" placeholder="Subtotal" class="form-control">
+               <input type="text" placeholder="Concepto" name="concepto[]" id="concepto" class="form-control" required >
+               <input type="number" placeholder="Cantidad" name="cantidad[]" id="cantidad" value="1" onchange="calcular(this.parentElement)" class="form-control" required >
+               <input type="number" placeholder="Precio Unitario" name="preciounit[]" id="preciounit" onchange="calcular(this.parentElement)" class="form-control" required>
+               <input type="number" readonly name="subtotal[]" id="total" placeholder="Subtotal" class="form-control" >
                <button onclick="agregar_fila(this.parentElement)" class="btn btn-primary">Agregar</button>
             </div>
             <br>
             </fieldset>
             <hr>
-         <!--<button onclick="agregar_registro()">+</button>-->
-         <button onclick="genPDF()" class="btn btn-secondary" style="width: 25%; margin: auto;">Generar Presupuesto</button>
-         <button onclick="creaPDF()" class="btn btn-secondary" style="width: 25%; margin: auto;">Generar PDF Nativo</button>
-         <button onclick="tabla()" class="btn btn-secondary" style="width: 25%; margin: auto;">Generar PDF Tabla</button>
+        
+         <button onclick="tabla()" class="btn " style="width: 50%; margin: auto; background-color:rgb(21, 160, 202); color: #ffffff;" >Generar Presupuesto</button>
       </div>
    </div>
 
 </body>
 
-
-
- <!--<script src="dist/jspdf.min.js"></script>
- <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
- <script src='dist/jspdf.debug.js'></script>
- <script type="text/javascript" src="dist/html2canvas.js"></script>-->
  <script src="dist/jspdf.umd.js"></script>
  <script src="dist/jspdf.plugin.autotable.js"></script>
  <script>
+
+document.addEventListener("DOMContentLoaded", function(event) {
+   const tiempoTranscurrido = Date.now();
+   const hoy = new Date(tiempoTranscurrido); dat=hoy.toLocaleDateString(); 
+   //console.log(dat);
+});
    
 var proyecto= document.getElementById("proyecto");
 var cliente= document.getElementById("cliente");
@@ -124,90 +123,13 @@ var cosas=[];
 
 function llenar_datos(parent){ 
 
-  // for(var i=0;i<cantidad.length;i++){
       conceptos.push(parent.childNodes[3].value);
       cant.push(parent.childNodes[5].value);
       preciosu.push(parent.childNodes[7].value);
       subtotales.push(parent.childNodes[9].value);
-  // }
-
- //  console.log("Cantidades : "+cant+ "Conceptos: "+conceptos);
 
 }
 
-
-var generateData = function(amount) {
-  var result = [];
-  var data = {
-    num: "1",
-    concepto: conceptos[amount-1],
-    unidad: "XPTO2",
-    precio_u: "25",
-    subtotal: "20485861"
-  };
-  for (var i = 0; i < amount; i += 1) {
-    data.id = (i + 1).toString();
-    result.push(Object.assign({}, data));
-  }
-  return result;
-};
-
-function createHeaders(keys) {
-  var result = [];
-  for (var i = 0; i < keys.length; i += 1) {
-    result.push({
-      id: keys[i],
-      name: keys[i],
-      prompt: keys[i],
-      width: 45,
-      align: "center",
-      padding: 1
-    });
-  }
-  return result;
-}
-
- function creaPDF(){
-   //llenar_datos();
-   var pdf = new jsPDF('p', 'mm', 'a4', 1);//'p', 'pt', 'letter'
-    //var doc = new jsPDF();
-    pdf.setFontSize(10);
-    
-    pdf.text(20,30, "Proyecto: "+proyecto.value);
-    
-    pdf.setFontSize(10);
-    pdf.text(20,40, "Nombre del Cliente: "+cliente.value);
-
-    for(i=0; i<cant.length; i++){
-     // pdf.text(20,45, "Cantidad: "+ cant[i]);
-    }
-    
-    
-		//var width = 800;
-	//	document.body.style.width = width + "px";
-
-	/*	pdf.fromHTML(document.body,{
-			callback: function (pdf) {
-				var iframe = document.createElement('iframe');
-				iframe.setAttribute('style', 'position:absolute;right:0; top:0; bottom:0; height:100%; width:800px');
-				document.body.appendChild(iframe);
-				iframe.src = pdf.output('datauristring');
-				
-			}
-		});*/
-
-      var headers = createHeaders([
-  "num",
-  "concepto",
-  "unidad",
-  "precio_u",
-  "subtotal"
-]);
-
-      pdf.table(10,45, generateData(cant.length), headers, {   });//autoSize: true
-
-   pdf.save(proyecto.value+'.pdf');
- }
 
  function agregar_registro(){
    contenido.innerHTML+='<div name="registro" id="registro[]" name="registro[]">\
@@ -220,24 +142,24 @@ function createHeaders(keys) {
 contador=parseFloat(contador)+parseFloat(1);
  }
 
+
  function agregar_fila(parent){
+   tbl=document.getElementById("paraPDF");
+   tbl.style.display = 'block';
    tot=0;
-   //document.getElementById("gran_total").value('');
    llenar_datos(parent);
-   //var tot=0;
    subtotales.forEach(function(a){tot += parseFloat(a);});
    t=document.getElementById("gran_total");
    t.value=tot;
-   //console.log("Total= "+tot);
-   //t.value(tot);
-//console.log(parent.childNodes)
-filas.innerHTML+='<tr>\
+   filas.innerHTML+='<tr>\
    <td>'+contador+'</td>\
    <td>'+parent.childNodes[3].value+'</td>\
    <td style="text-align: center;">'+parent.childNodes[5].value+'</td>\
    <td style="text-align: right;">'+parent.childNodes[7].value+'</td>\
    <td style="text-align: right;">'+parent.childNodes[5].value *  parent.childNodes[7].value+'</td>\
    ';
+
+   
    contador=parseFloat(contador)+parseFloat(1);
 
    parent.childNodes[3].value='';
@@ -248,70 +170,57 @@ filas.innerHTML+='<tr>\
 
 
  function calcular(parent){
- // var elem= parent.getElementById("numero");getElementsByTagName
  console.log(parent.childNodes);
    var subtotal= parent.childNodes[5].value *  parent.childNodes[7].value;
    parent.childNodes[9].value = subtotal;
-   console.log(subtotal);
+   //console.log(subtotal);
  }
 
 
  </script>
 
-
-
   <script type="text/javascript">
-  function genPDF()
-  {
-   var data = document.getElementById('paraPDF');
-    html2canvas(data).then(canvas => {
-      var imgWidth = 200;
-      var pageHeight = 170;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      var heightLeft = imgHeight;
-      const contentDataURL = canvas.toDataURL('image/png', 15)
-      var options = {
-      size: '100px',
-      background: '#fff',
-      pagesplit: true,
-    };
-    let pdf = new jsPDF('p', 'mm', 'a4', 1); // A4 size page of PDF
-    var position = 15;//posicion de arriba
-    var width = pdf.internal.pageSize.width;
-    var height = pdf.internal.pageSize.height;
-    pdf.addImage(contentDataURL, 'PNG', 2, position, imgWidth, imgHeight, options)
-    pdf.addImage(contentDataURL, 'PNG', 2, position, imgWidth, imgHeight, options);
-    heightLeft -= pageHeight;
-    while (heightLeft >= 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(contentDataURL, 'PNG', 2, position, imgWidth, imgHeight, options);
-      heightLeft -= pageHeight;
-    }
-    pdf.save(cliente.value+'.pdf'); // Generated PDF
-    });
-   }
-
 
   function tabla(){
-   var doc = new jspdf.jsPDF()
-   doc.text(20,30, "Proyecto: "+proyecto.value);
-    
-    doc.setFontSize(10);
-    doc.text(20,40, "Nombre del Cliente: "+cliente.value);
-// Simple data example
-var head = [['Proyecto', proyecto.value , 'Rank', 'Capital']]
-var body = [
-  ['Cliente', cliente.value, 7.526, 'Copenhagen'],
-  [2, 'Switzerland', 7.509, 'Bern'],
-  [3, 'Iceland', 7.501, 'Reykjavík'],
+   var doc = new jspdf.jsPDF();
+   //Tabla de encabezado
+var titulo = [
+  ['Hoja de Presupuesto'],
 ]
-doc.autoTable({ head: head, body: body })
+doc.autoTable({ head: titulo , margin: Margin = 20,  styles: { cellPadding: 1, fontSize: 18, halign: 'center' }, headStyles: { fillColor: [21, 160, 202] }})
+ 
+var body = [
+  ['Proyecto: '+proyecto.value ],
+  ['Cliente: '+ cliente.value],
+  ['Elaborado por: Arq. Jesús Emmanuel de la Cruz Palacios'],
+  ['Tel: 22 25 49 31 50'],
+  ['Fecha: '+dat],
+]
+//tabla de encabezado
+doc.autoTable({ body: body , margin: Margin = 20, theme: 'striped', tableLineWidth: number = 1, tableLineColor: Color = 200, styles: { cellPadding: 1, fontSize: 10 },})//tableLineWidth: number = 1, tableLineColor: Color = 200,
 
-// Simple html example
-doc.autoTable({ html: '#tabla_datos' })
 
-doc.save('table.pdf')
+
+// Tabla de los conceptos
+doc.autoTable({ html: '.table',  useCss: false, theme: 'grid', margin: Margin = 20, styles: {  fontSize: 10 }, headStyles: { fillColor: [21, 160, 202] }})//theme: 'striped',  headStyles: { fillColor: [220,220,220] },
+
+
+var totaal = [
+  ['Total Presupuestado = $ '+tot+" "],
+]
+doc.autoTable({ body: totaal , margin: Margin = 20, theme: 'grid', tableLineWidth: number = 1, tableLineColor: Color = 200, styles: { cellPadding: 0.5, fontSize: 10, halign: 'right'}})
+
+//Tabla de firma
+/*
+var totaal = [
+  ['Atentamente -- Arq. Jesus Emmanuel de la Cruz Palacios'],
+]
+doc.autoTable({ body: totaal , margin: Margin = 20,  styles: { cellPadding: 1, fontSize: 10, halign: 'right' },})*/
+
+doc.setFontSize(9);
+doc.text("Este presupuesto tiene validez 20 dias posteriores a la fecha de entrega", 20, 280);
+
+doc.save(cliente.value+'.pdf');
   }
 
   </script>
