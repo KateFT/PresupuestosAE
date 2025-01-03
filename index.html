@@ -152,7 +152,7 @@
 
                 // Encabezado
                 var titulo = [
-                    [tipoDocumento === 'presupuesto' ? 'Hoja de Presupuesto' : 'Nota'],
+                    [tipoDocumento === 'presupuesto' ? 'Hoja de Presupuesto' : 'Nota de Remisión'],
                 ];
                 doc.autoTable({
                     head: titulo,
@@ -230,7 +230,7 @@
 
                 // Tabla de firma
                 var totaal = [
-                    ['Atentamente -- Arq. Jesus Emmanuel de la Cruz Palacios'],
+                    ['Atentamente:  Arq. Jesús Emmanuel de la Cruz Palacios'],
                 ];
                 doc.autoTable({
                     body: totaal,
